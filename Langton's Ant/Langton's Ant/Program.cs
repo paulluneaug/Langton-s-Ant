@@ -16,7 +16,9 @@ namespace Langton_s_Ant
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1(350,200, 12));
+            
+            
         }
     }
 }
