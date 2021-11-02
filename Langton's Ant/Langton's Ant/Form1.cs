@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Langton_s_Ant
 {
@@ -14,23 +15,36 @@ namespace Langton_s_Ant
     {
         private Timer MainTimer;
         private Game game;
+        public int nX;
+        public int nY;
+        public int boxSize;
+        public bool isPlaying = true;
 
-        public Form1(int x, int y, int nbAnts)
+        public Form1(int x, int y, int boxSize, int nbAnts)
         {
             this.MainTimer = new Timer();
-            this.MainTimer.Interval = (5);
+            this.MainTimer.Interval = (1);
             this.MainTimer.Tick += new EventHandler(MainTimer_Tick);
             this.MainTimer.Start();
+            this.nX = x;
+            this.nY = y;
 
-            int boxSize = 5;
-            this.game = new Game(x, y, boxSize,nbAnts);
+            this.boxSize = boxSize;
+            this.game = new Game(this.nX, this.nY, boxSize,nbAnts);
 
-            InitializeComponent(x,y, boxSize);
+            InitializeComponent(this.nX, this.nY, boxSize);
         }
 
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            /*var frm = this.CanvasBox;
+            using (var bmp = new Bitmap(frm.Width, frm.Height))
+            {
+                frm.DrawToBitmap(bmp, new Rectangle(0, 0, nX * boxSize, nY * boxSize));
+                bmp.Save($@"..\..\..\Screenshots\LangtonAnt_{game.steps}.png");
+            }*/
+
             foreach (Ant ant in game.ants)
             {
                 ant.UpdateAnt();
@@ -38,11 +52,16 @@ namespace Langton_s_Ant
             ++game.steps;
             this.Text = $"Langton's Ants : Step {game.steps}";
             Refresh();
-            this.StepsLab.Refresh();
         }
         private void CanvasBox_Paint(object sender, PaintEventArgs e)
         {
             game.PaintGrid(e.Graphics);
+        }
+        private void Pause(object sender, KeyPressEventArgs e)
+        {
+            isPlaying = !isPlaying;
+            if (isPlaying) { this.MainTimer.Start(); }
+            else { this.MainTimer.Stop(); }
         }
     }
 }

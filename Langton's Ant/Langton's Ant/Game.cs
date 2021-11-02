@@ -36,10 +36,14 @@ namespace Langton_s_Ant
 
 			grid = new Grid(this.nX, this.nY, this.boxSize);
 			Random rnd = new Random();
-			nbAnts = Math.Min(nbAnts, antsColors.Count);
+
 			for (int i = 0; i<nbAnts ; i++)
             {
 				ants.Add(new Ant(rnd.Next(10, nX - 10), rnd.Next(10, nY - 10), grid, i));
+				if ((i + 1) > antsColors.Count)
+                {
+					antsColors.Add(Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)));
+                }
             }
 
 		}
