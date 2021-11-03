@@ -5,12 +5,14 @@ namespace Langton_s_Ant
 {
     public class Ant
     {
-        public int globalIndex;
-        public int x;
+        public int globalIndex; //Index, unique to each ant
+        public int x; //Position of the ant in the grid
         public int y;
-        private (int, int) currentDir;
+        private (int, int) currentDir; //Current direction of the ant
+        private int iCurrentDir;
         private Grid g;
-        public static List<(int, int)> dirs = new List<(int, int)>() { (0, 1), (1, 0), (0, -1), (-1, 0) };
+        public static List<(int, int)> dirs = new List<(int, int)>() { (0, -1), (1, 0),  (0, 1), (-1, 0) };
+        //public static List<(int, int)> dirs = new List<(int, int)>() { (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1) };
         private static Random rnd = new Random();
 
         public Ant(int x, int y, Grid g, int globalIndex)
@@ -19,33 +21,29 @@ namespace Langton_s_Ant
             this.y = y;
             this.g = g;
             this.globalIndex = globalIndex;
-            Console.WriteLine(rnd.Next(0, dirs.Count));
-            this.currentDir = dirs[rnd.Next(0, dirs.Count)];
-            Console.WriteLine(this.currentDir);
+            iCurrentDir = rnd.Next(0, dirs.Count);
+            this.currentDir = dirs[iCurrentDir];
             
         }
 
         public void UpdateAnt()
         {
-            try
+            if (g.TabBoxes[this.x, this.y] == -1) //If the ant is on a blank tile, turn it to left and sets the tile's color to the ant color
             {
-                if (g.TabBoxes[this.x, this.y] == -1)
-                {
-                    currentDir = (currentDir.Item2, -currentDir.Item1);
-                    g.TabBoxes[this.x, this.y] = this.globalIndex;
-                }
-                else
-                {
-                    currentDir = (-currentDir.Item2, currentDir.Item1);
-                    g.TabBoxes[this.x, this.y] = -1;
-                }
-
-
-                this.x = (this.x + currentDir.Item1 + g.nX) % (g.nX);
-                this.y = (this.y + currentDir.Item2 + g.nY) % (g.nY);
-
+                this.iCurrentDir = (this.iCurrentDir - 1 + dirs.Count) % dirs.Count;
+                g.TabBoxes[this.x, this.y] = this.globalIndex;
             }
-            catch { Console.WriteLine("Error"); }
+            else //Else turn it to right and delete the tile's color
+            {
+                this.iCurrentDir = (this.iCurrentDir + 1 + dirs.Count) % dirs.Count;
+                g.TabBoxes[this.x, this.y] = -1;
+            }
+
+            this.currentDir = dirs[iCurrentDir];
+
+            //
+            this.x = (this.x + currentDir.Item1 + g.nX) % (g.nX);
+            this.y = (this.y + currentDir.Item2 + g.nY) % (g.nY);
 
             
 

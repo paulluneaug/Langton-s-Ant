@@ -5,10 +5,10 @@ namespace Langton_s_Ant
 {
 	public class Grid
 	{
-		public int nX { get; private set; } //Number of cells per row and per column
-		public int nY { get; private set; } //Number of cells per row and per column
+		public int nX { get; private set; } //Number of cells per row
+		public int nY { get; private set; } //Number of cells per column
 		private int boxSize;
-		public int[,] TabBoxes; //2 dimensional array that stores all the boxes 
+		public int[,] TabBoxes; //2 dimensional array that stores all the boxes : -1 if the tile is blank, any other positive integer if the tile is colored
 		public Graphics Canvas;
 		public Grid(int nbCellsX, int nbCellsY, int boxSize)
 		{

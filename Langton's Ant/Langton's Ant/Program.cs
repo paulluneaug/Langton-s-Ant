@@ -16,9 +16,11 @@ namespace Langton_s_Ant
         static void Main()
         {
             int boxSize = 3;
+            int x = Screen.PrimaryScreen.WorkingArea.Size.Width - 260, y = Screen.PrimaryScreen.WorkingArea.Size.Height - 23;
+            //int x = 1150, y = 900;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(Screen.PrimaryScreen.WorkingArea.Size.Width / boxSize, (Screen.PrimaryScreen.WorkingArea.Size.Height - 23) / boxSize, boxSize, 40));
+            Application.Run(new Form1(x / boxSize, (y) / boxSize, boxSize, 12));
             
             
         }

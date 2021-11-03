@@ -7,12 +7,12 @@ namespace Langton_s_Ant
 {
 	public class Game
 	{
-		private int nX;
-		private int nY;
-		private int boxSize;
+		private int nX; //Number of boxes per row
+		private int nY; //Number of boxes per column
+		private int boxSize; //Number of pixels of each box
 		public Grid grid;
 		public List<Ant> ants = new List<Ant>();
-		public List<Color> antsColors = new List<Color>() { Color.FromArgb(255, 0, 0),
+		public List<Color> antsColors = new List<Color>() { Color.FromArgb(255, 0, 0), //Color of the first 12 ants
 															Color.FromArgb(255, 153, 0),
 															Color.FromArgb(153, 204, 0),
 															Color.FromArgb(51, 153, 102),
@@ -25,11 +25,12 @@ namespace Langton_s_Ant
 															Color.FromArgb(131, 69, 65)};
 		public SolidBrush ColorBrush;
 		public int steps = 0;
+		public int stepsPerDraw = 1;
 
 		public Game(int nbCellsX, int nbCellsY, int boxSize, int nbAnts)
 		{
-			this.nX = nbCellsX; //Number of cells per row and per column
-			this.nY = nbCellsY; //Number of cells per row and per column
+			this.nX = nbCellsX; 
+			this.nY = nbCellsY; 
 			this.boxSize = boxSize;
 
 			this.ColorBrush = new SolidBrush(Color.White);
@@ -63,6 +64,8 @@ namespace Langton_s_Ant
 					}
 				}
 			}
+
+			//Displays the ants
 			this.ColorBrush.Color = Color.FromArgb(255, 255, 255);
 			foreach (Ant a in ants)
             {

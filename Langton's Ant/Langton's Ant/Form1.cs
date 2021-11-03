@@ -44,13 +44,15 @@ namespace Langton_s_Ant
                 frm.DrawToBitmap(bmp, new Rectangle(0, 0, nX * boxSize, nY * boxSize));
                 bmp.Save($@"..\..\..\Screenshots\LangtonAnt_{game.steps}.png");
             }*/
-
-            foreach (Ant ant in game.ants)
+            for (int i = 0; i< game.stepsPerDraw; i++)
             {
-                ant.UpdateAnt();
+                foreach (Ant ant in game.ants)
+                {
+                    ant.UpdateAnt();
+                }
+                ++game.steps;
+                this.Text = $"Langton's Ants : Step {game.steps}";
             }
-            ++game.steps;
-            this.Text = $"Langton's Ants : Step {game.steps}";
             Refresh();
         }
         private void CanvasBox_Paint(object sender, PaintEventArgs e)
@@ -62,6 +64,17 @@ namespace Langton_s_Ant
             isPlaying = !isPlaying;
             if (isPlaying) { this.MainTimer.Start(); }
             else { this.MainTimer.Stop(); }
+        }
+        private void ChangeStepsPerDraw(object sender, EventArgs e)
+        {
+            game.stepsPerDraw = this.StepsPerDrawTrackBar.Value;
+            this.StepsPerDrawLab.Text = $"{game.stepsPerDraw} step(s) calculated between 2 canvas updates";
+        }
+        private void ChangeStepSpeed(object sender, EventArgs e)
+        {
+            this.MainTimer.Interval =  this.StepSpeedTrackBar.Value;
+            this.MainTimer.Start();
+            this.StepSpeedLab.Text = $"{this.StepSpeedTrackBar.Value} ms between 2 canvas updates";
         }
     }
 }
